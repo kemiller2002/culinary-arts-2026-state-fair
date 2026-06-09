@@ -51,6 +51,9 @@ jobs:
       - name: Build culinary HTML site
         run: npm run build:entries
 
+      - name: Build culinary HTML site
+        run: npm run build:site
+
       - name: Commit generated HTML
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
