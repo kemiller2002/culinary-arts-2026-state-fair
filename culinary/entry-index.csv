@@ -1,0 +1,6 @@
+personId,division,category,classNumber,className,path,status
+kevin,adult,Cookies,056,Chocolate Chip Without Nuts,entries/adult/cookies/056-chocolate-chip-without-nuts/kevin,idea
+samantha,adult,Cookies,075,Butter/Shortbread Cookie,entries/adult/cookies/075-butter-shortbread-cookie/samantha,idea
+kevin,adult,Pies,156,Hoosier Sugar Cream,entries/adult/pies/156-hoosier-sugar-cream/kevin,idea
+colin,youth,Cookies,001,"6 Drop, Molded or Bar Cookies",entries/youth/cookies/001-drop-molded-or-bar-cookies/colin,idea
+samantha,sponsored,Cupcakes,004,Red Velvet Cupcake Contest,entries/sponsored/cupcakes/004-red-velvet-cupcake-contest/samantha,idea

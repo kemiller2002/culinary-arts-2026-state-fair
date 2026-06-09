@@ -1,0 +1,45 @@
+name: Build Culinary Site
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "culinary/**"
+      - "scripts/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build-culinary-site.yml"
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-culinary-site:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build culinary HTML site
+        run: npm run build:entries
+
+      - name: Commit generated HTML
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Build culinary HTML site
+          file_pattern: html/**
