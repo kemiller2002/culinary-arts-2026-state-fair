@@ -1,0 +1,97 @@
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #f7f4ef;
+  color: #211a14;
+}
+
+.page {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.page-header p {
+  margin: .35rem 0 0;
+  color: #6f6258;
+}
+
+.controls {
+  display: grid;
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.controls input,
+.controls select {
+  width: 100%;
+  padding: .8rem .9rem;
+  border: 1px solid #d6cec4;
+  border-radius: .75rem;
+  font: inherit;
+  background: white;
+}
+
+.entry-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.entry-card {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #ded6cc;
+  border-radius: 1rem;
+  background: white;
+  color: inherit;
+  text-decoration: none;
+}
+
+.entry-card:hover {
+  border-color: #9d7c52;
+}
+
+.entry-title {
+  margin: 0 0 .6rem;
+  font-size: 1.1rem;
+}
+
+.entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+
+.entry-meta span {
+  padding: .25rem .5rem;
+  border-radius: 999px;
+  background: #f1ebe3;
+  font-size: .85rem;
+}
+
+.empty {
+  padding: 2rem;
+  border: 1px dashed #c9bfb4;
+  border-radius: 1rem;
+  text-align: center;
+  color: #6f6258;
+}
+
+@media (min-width: 700px) {
+  .controls {
+    grid-template-columns: 2fr repeat(4, 1fr);
+  }
+
+  .entry-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
