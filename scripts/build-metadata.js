@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const recipesDir = path.resolve("recipes");
+const recipesDir = path.resolve("culinary");
 const metadataDir = path.resolve("html", "metadata");
 
 fs.mkdirSync(metadataDir, { recursive: true });
