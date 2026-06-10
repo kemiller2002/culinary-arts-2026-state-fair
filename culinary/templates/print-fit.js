@@ -1,7 +1,16 @@
-function fitEntrySheet() {
-  const sheet = document.querySelector(".entry-sheet");
-  if (!sheet) return;
+function fits(sheet) {
+  return sheet.scrollHeight <= sheet.clientHeight;
+}
 
+function applyMode(sheet, classes) {
+  sheet.classList.remove("compact", "two-column", "tiny");
+  sheet.classList.add(...classes);
+
+  // Force layout recalculation
+  void sheet.offsetHeight;
+}
+
+function fitSheet(sheet) {
   const modes = [
     [],
     ["compact"],
@@ -9,57 +18,25 @@ function fitEntrySheet() {
     ["compact", "two-column", "tiny"],
   ];
 
-  sheet.classList.remove("compact", "two-column", "tiny");
-
   for (const mode of modes) {
-    sheet.classList.remove("compact", "two-column", "tiny");
-    sheet.classList.add(...mode);
+    applyMode(sheet, mode);
 
-    // Force layout recalculation
-    sheet.offsetHeight;
-
-    if (sheet.scrollHeight <= sheet.clientHeight) {
+    if (fits(sheet)) {
       return;
     }
   }
 
-  // Last resort: keep the tightest mode applied.
-  sheet.classList.remove("compact", "two-column", "tiny");
-  sheet.classList.add("compact", "two-column", "tiny");
+  applyMode(sheet, ["compact", "two-column", "tiny"]);
 }
 
-function fitAllEntrySheets() {
-  document.querySelectorAll(".entry-sheet").forEach((sheet) => {
-    const modes = [
-      [],
-      ["compact"],
-      ["compact", "two-column"],
-      ["compact", "two-column", "tiny"],
-    ];
-
-    sheet.classList.remove("compact", "two-column", "tiny");
-
-    for (const mode of modes) {
-      sheet.classList.remove("compact", "two-column", "tiny");
-      sheet.classList.add(...mode);
-
-      // Force browser to recalculate layout.
-      sheet.offsetHeight;
-
-      if (sheet.scrollHeight <= sheet.clientHeight) {
-        return;
-      }
-    }
-
-    sheet.classList.remove("compact", "two-column", "tiny");
-    sheet.classList.add("compact", "two-column", "tiny");
-  });
+function fitAllSheets() {
+  document.querySelectorAll(".entry-sheet").forEach(fitSheet);
 }
 
-window.addEventListener("load", fitAllEntrySheets);
-window.addEventListener("resize", fitAllEntrySheets);
-window.addEventListener("beforeprint", fitAllEntrySheets);
+window.addEventListener("load", fitAllSheets);
+window.addEventListener("resize", fitAllSheets);
+window.addEventListener("beforeprint", fitAllSheets);
 
-if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(fitAllEntrySheets);
+if (document.fonts?.ready) {
+  document.fonts.ready.then(fitAllSheets);
 }
