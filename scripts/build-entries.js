@@ -143,47 +143,6 @@ function buildEntry(recipePath) {
   </main>
 </body>
 </html>`;
-  const taxonomy = {
-    people: new Set(),
-    categories: new Map(),
-  };
-
-  recipes.forEach((recipe) => {
-    const person = recipe.data.person;
-    const category = recipe.data.category;
-    const subCategory = recipe.data.subCategory;
-
-    if (person) {
-      taxonomy.people.add(person);
-    }
-
-    if (category) {
-      if (!taxonomy.categories.has(category)) {
-        taxonomy.categories.set(category, new Set());
-      }
-
-      if (subCategory) {
-        taxonomy.categories.get(category).add(subCategory);
-      }
-    }
-  });
-
-  const taxonomyJson = {
-    people: [...taxonomy.people].sort(),
-    categories: Object.fromEntries(
-      [...taxonomy.categories.entries()]
-        .sort(([a], [b]) => a.localeCompare(b))
-        .map(([category, subCategories]) => [
-          category,
-          [...subCategories].sort(),
-        ]),
-    ),
-  };
-
-  fs.writeFileSync(
-    path.join(outputDir, "recipe-taxonomy.json"),
-    JSON.stringify(taxonomyJson, null, 2),
-  );
 
   const outFile = path.join(
     OUTPUT,
