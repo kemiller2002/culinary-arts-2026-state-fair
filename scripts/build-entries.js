@@ -141,6 +141,7 @@ function buildEntry(recipePath) {
       <p>${escapeHtml(household.email)}</p>
     </footer>
   </main>
+  <script src="print-fit.js"></script>
 </body>
 </html>`;
 
