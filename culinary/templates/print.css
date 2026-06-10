@@ -17,8 +17,9 @@ body {
   font-size: var(--recipe-font-size, 9.5pt);
   line-height: var(--recipe-line-height, 1.22);
 }
-
 .entry-sheet {
+  font-size: var(--recipe-font-size, 9.5pt);
+  line-height: var(--recipe-line-height, 1.22);
   width: 100%;
   max-width: none;
   min-height: calc(11in - 0.7in);
