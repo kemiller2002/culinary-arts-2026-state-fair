@@ -1,4 +1,16 @@
 {
-  "people": [],
-  "categories": {}
+  "people": [
+    "Kevin Miller"
+  ],
+  "categories": {
+    "Burtons Maplewood Farm Cooking with Maple Syrup": [
+      "Cooking with Maple Syrup"
+    ],
+    "Dips or Spreads": [
+      "Dip for Vegetables"
+    ],
+    "Sauces": [
+      "Tomato Based Sauce"
+    ]
+  }
 }

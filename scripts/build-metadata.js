@@ -1,57 +1,114 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
+import yaml from "js-yaml";
 
-const recipesDir = path.resolve("culinary");
-const metadataDir = path.resolve("html", "metadata");
+const ROOT = "culinary";
+const ENTRIES = path.join(ROOT, "entries");
+const PEOPLE = path.join(ROOT, "people");
+const OUTPUT = "html";
+const METADATA = path.join(OUTPUT, "metadata");
 
-fs.mkdirSync(metadataDir, { recursive: true });
+fs.mkdirSync(METADATA, { recursive: true });
 
-const taxonomy = {
-  people: new Set(),
-  categories: new Map(),
-};
+function readYaml(filePath) {
+  return yaml.load(fs.readFileSync(filePath, "utf8"));
+}
 
-const files = fs.readdirSync(recipesDir).filter((file) => file.endsWith(".md"));
+function slugToTitle(slug) {
+  return slug
+    .replace(/^\d+-/, "")
+    .replaceAll("-", " ")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
 
-for (const file of files) {
-  const fullPath = path.join(recipesDir, file);
-  const raw = fs.readFileSync(fullPath, "utf8");
-  const { data } = matter(raw);
+function getDirectories(dir) {
+  if (!fs.existsSync(dir)) return [];
 
-  const person = data.person;
-  const category = data.category;
-  const subCategory = data.subCategory;
+  return fs
+    .readdirSync(dir, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+}
 
-  if (person) {
-    taxonomy.people.add(person);
+function getPeople() {
+  if (!fs.existsSync(PEOPLE)) return [];
+
+  return fs
+    .readdirSync(PEOPLE)
+    .filter((file) => file.endsWith(".yml"))
+    .map((file) => {
+      const personId = path.basename(file, ".yml");
+      const person = readYaml(path.join(PEOPLE, file));
+
+      return {
+        id: personId,
+        name: person.name || personId,
+      };
+    })
+    .filter((person) => person.id !== "household")
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function getCategories() {
+  const categories = {};
+
+  for (const division of getDirectories(ENTRIES)) {
+    const divisionPath = path.join(ENTRIES, division);
+
+    for (const categorySlug of getDirectories(divisionPath)) {
+      const categoryPath = path.join(divisionPath, categorySlug);
+      const categoryName = slugToTitle(categorySlug);
+
+      if (!categories[division]) {
+        categories[division] = {};
+      }
+
+      if (!categories[division][categoryName]) {
+        categories[division][categoryName] = {
+          slug: categorySlug,
+          classes: [],
+        };
+      }
+
+      for (const classFolder of getDirectories(categoryPath)) {
+        const classPath = path.join(categoryPath, classFolder, "_class.yml");
+
+        let className = slugToTitle(classFolder);
+        let classNumber = "";
+
+        if (fs.existsSync(classPath)) {
+          const classInfo = readYaml(classPath);
+          className = classInfo.className || className;
+          classNumber = classInfo.classNumber || "";
+        }
+
+        categories[division][categoryName].classes.push({
+          slug: classFolder,
+          classNumber,
+          name: className,
+        });
+      }
+
+      categories[division][categoryName].classes.sort((a, b) => {
+        return String(a.classNumber || a.slug).localeCompare(
+          String(b.classNumber || b.slug),
+          undefined,
+          { numeric: true },
+        );
+      });
+    }
   }
 
-  if (category) {
-    if (!taxonomy.categories.has(category)) {
-      taxonomy.categories.set(category, new Set());
-    }
-
-    if (subCategory) {
-      taxonomy.categories.get(category).add(subCategory);
-    }
-  }
+  return categories;
 }
 
 const output = {
-  people: [...taxonomy.people].sort(),
-  categories: Object.fromEntries(
-    [...taxonomy.categories.entries()]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([category, subCategories]) => [
-        category,
-        [...subCategories].sort(),
-      ]),
-  ),
+  people: getPeople(),
+  categories: getCategories(),
 };
 
 fs.writeFileSync(
-  path.join(metadataDir, "recipe-taxonomy.json"),
+  path.join(METADATA, "recipe-taxonomy.json"),
   JSON.stringify(output, null, 2),
 );
 
