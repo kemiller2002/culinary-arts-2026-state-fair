@@ -14,16 +14,20 @@ body {
   background: white;
   color: #111;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 9.5pt;
-  line-height: 1.22;
+  font-size: var(--recipe-font-size, 9.5pt);
+  line-height: var(--recipe-line-height, 1.22);
 }
 
 .entry-sheet {
   width: 100%;
   max-width: none;
+  min-height: calc(11in - 0.7in);
+  display: flex;
+  flex-direction: column;
 }
 
 .fair-header {
+  flex: 0 0 auto;
   border-bottom: 1.5px solid #111;
   margin-bottom: 0.12in;
   padding-bottom: 0.08in;
@@ -31,7 +35,7 @@ body {
 
 .fair-header h1 {
   margin: 0 0 0.06in;
-  font-size: 17pt;
+  font-size: var(--title-font-size, 17pt);
   line-height: 1.05;
 }
 
@@ -63,7 +67,8 @@ dd {
 }
 
 .recipe-body {
-  column-count: 2;
+  flex: 1 1 auto;
+  column-count: var(--recipe-columns, 1);
   column-gap: 0.22in;
   column-rule: 1px solid #ddd;
 }
@@ -77,14 +82,14 @@ dd {
   margin: 0.08in 0 0.04in;
   padding-bottom: 0.02in;
   border-bottom: 1px solid #aaa;
-  font-size: 12pt;
+  font-size: var(--h2-font-size, 12pt);
   line-height: 1.1;
 }
 
 .recipe-body h3 {
   break-after: avoid;
   margin: 0.06in 0 0.03in;
-  font-size: 10pt;
+  font-size: var(--h3-font-size, 10pt);
   line-height: 1.1;
 }
 
@@ -108,10 +113,11 @@ dd {
 }
 
 .entrant-footer {
-  margin-top: 0.1in;
+  flex: 0 0 auto;
+  margin-top: auto;
   padding-top: 0.06in;
   border-top: 1.5px solid #111;
-  font-size: 8.5pt;
+  font-size: var(--footer-font-size, 8.5pt);
   line-height: 1.15;
   break-inside: avoid;
 }
@@ -125,6 +131,52 @@ dd {
   content: " • ";
 }
 
+/* Fit modes controlled by JS */
+
+.entry-sheet.compact {
+  --recipe-font-size: 8.8pt;
+  --recipe-line-height: 1.15;
+  --title-font-size: 15.5pt;
+  --h2-font-size: 11pt;
+  --h3-font-size: 9.5pt;
+  --footer-font-size: 8pt;
+}
+
+.entry-sheet.two-column {
+  --recipe-columns: 2;
+}
+
+.entry-sheet.tiny {
+  --recipe-font-size: 8pt;
+  --recipe-line-height: 1.08;
+  --title-font-size: 14pt;
+  --h2-font-size: 10pt;
+  --h3-font-size: 9pt;
+  --footer-font-size: 7.5pt;
+}
+
+.entry-sheet.compact .fair-header {
+  margin-bottom: 0.08in;
+  padding-bottom: 0.06in;
+}
+
+.entry-sheet.compact .recipe-body h2 {
+  margin: 0.055in 0 0.025in;
+}
+
+.entry-sheet.compact .recipe-body h3 {
+  margin: 0.04in 0 0.02in;
+}
+
+.entry-sheet.compact .recipe-body ul,
+.entry-sheet.compact .recipe-body ol {
+  margin-bottom: 0.04in;
+}
+
+.entry-sheet.tiny .recipe-body li {
+  margin: 0.008in 0;
+}
+
 @media screen {
   body {
     background: #eee;
@@ -132,17 +184,20 @@ dd {
 
   .entry-sheet {
     width: 8.5in;
-    min-height: 11in;
+    height: 11in;
     margin: 2rem auto;
     padding: 0.35in;
     background: white;
     box-shadow: 0 0 20px rgb(0 0 0 / 0.15);
+    overflow: hidden;
   }
 }
 
 @media print {
   .entry-sheet {
+    height: calc(11in - 0.7in);
     padding: 0;
+    overflow: hidden;
   }
 
   a {
