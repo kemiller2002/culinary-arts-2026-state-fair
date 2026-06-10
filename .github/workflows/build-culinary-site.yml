@@ -51,6 +51,9 @@ jobs:
       - name: Build culinary HTML site
         run: npm run build:entries
 
+      - name: Build Metadata
+        run: npm run build:metadata
+
       - name: Build culinary HTML site
         run: npm run build:site
 
