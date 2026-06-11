@@ -434,3 +434,20 @@ body.print-preview .entrant-footer p:not(:last-child)::after {
   --list-margin: 0.012in 0 0.03in 0.14in;
   --li-margin: 0.004in 0;
 }
+.screen-version {
+  display: block;
+}
+
+.print-version {
+  display: none;
+}
+
+@media print {
+  .screen-version {
+    display: none;
+  }
+
+  .print-version {
+    display: grid;
+  }
+}
