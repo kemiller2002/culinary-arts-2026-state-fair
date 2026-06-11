@@ -451,3 +451,14 @@ body.print-preview .entrant-footer p:not(:last-child)::after {
     display: grid;
   }
 }
+
+.print-version {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+
+  width: 8.5in;
+  height: 11in;
+  padding: 0.35in;
+  overflow: hidden;
+}
