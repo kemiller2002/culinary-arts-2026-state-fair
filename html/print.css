@@ -7,66 +7,26 @@
   box-sizing: border-box;
 }
 
-/* Default mobile: NEVER clip */
 html,
 body {
   margin: 0;
   padding: 0;
   color: #111;
   background: #f3f3f3;
-  overflow: visible;
+  overflow-x: hidden;
 }
 
 .entry-sheet {
   width: 100%;
   max-width: 48rem;
-  min-height: 0;
-  height: auto;
   margin: 0 auto;
   padding: 1rem;
-  overflow: visible;
   background: white;
-}
-
-/* Print preview: paper-sized, but do NOT hide overflow while debugging */
-body.print-preview .entry-sheet {
-  width: 8.5in;
-  min-height: 11in;
-  height: auto;
-  max-width: none;
-  margin: 2rem auto;
-  padding: 0.35in;
   overflow: visible;
-}
 
-/* Only true print gets fixed page behavior */
-@media print {
-  html,
-  body {
-    overflow: visible;
-    background: white;
-  }
-
-  .entry-sheet {
-    width: 100%;
-    height: calc(11in - 0.7in);
-    max-height: calc(11in - 0.7in);
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
-
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-
-    font-size: var(--recipe-font-size, 9.5pt);
-    line-height: var(--recipe-line-height, 1.22);
-  }
-
-  .recipe-body {
-    min-height: 0;
-    overflow: hidden;
-    column-count: var(--recipe-columns, 1);
-  }
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .fair-header {
@@ -128,6 +88,12 @@ dd {
   line-height: 1.2;
 }
 
+.recipe-body h4 {
+  margin: 0.75rem 0 0.25rem;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
 .recipe-body p {
   margin: 0.5rem 0;
 }
@@ -159,8 +125,6 @@ dd {
   margin: 0.25rem 0;
 }
 
-/* Tablet / desktop screen layout */
-
 @media screen and (min-width: 700px) {
   body {
     padding: 2rem;
@@ -177,57 +141,134 @@ dd {
   }
 }
 
-/* Optional browser print preview mode.
-   Add body class="print-preview" if you want the screen to look like paper. */
-
-@media screen {
-  body.print-preview {
-    padding: 0;
-    background: #eee;
-  }
-
-  body.print-preview .entry-sheet {
-    width: 8.5in;
-    height: 11in;
-    max-width: none;
-    margin: 2rem auto;
-    padding: 0.35in;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgb(0 0 0 / 0.15);
-
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-
-    font-size: var(--recipe-font-size, 9.5pt);
-    line-height: var(--recipe-line-height, 1.22);
-  }
-
-  body.print-preview .recipe-body {
-    min-height: 0;
-    overflow: hidden;
-    column-count: var(--recipe-columns, 1);
-    column-gap: 0.22in;
-    column-rule: 1px solid #ddd;
-  }
-
-  body.print-preview .entrant-footer {
-    margin-top: 0.08in;
-  }
+/* Screen print-preview mode */
+body.print-preview {
+  padding: 0;
+  background: #eee;
+  overflow-x: auto;
 }
 
-/* =========================================================
-   Print layout
-   ========================================================= */
+body.print-preview .entry-sheet {
+  width: 8.5in;
+  height: 11in;
+  max-width: none;
+  margin: 2rem auto;
+  padding: 0.35in;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgb(0 0 0 / 0.15);
 
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+
+  font-size: var(--recipe-font-size, 9.5pt);
+  line-height: var(--recipe-line-height, 1.22);
+}
+
+body.print-preview .fair-header {
+  border-bottom: 1.5px solid #111;
+  margin-bottom: var(--header-margin-bottom, 0.12in);
+  padding-bottom: var(--header-padding-bottom, 0.08in);
+}
+
+body.print-preview .fair-header h1 {
+  margin: 0 0 0.06in;
+  font-size: var(--title-font-size, 17pt);
+  line-height: 1.05;
+}
+
+body.print-preview .entry-meta,
+body.print-preview .recipe-meta {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.06in;
+  margin: 0.04in 0;
+}
+
+body.print-preview .entry-meta div,
+body.print-preview .recipe-meta div {
+  padding: 0.04in 0.05in;
+}
+
+body.print-preview dt {
+  font-size: 6.8pt;
+}
+
+body.print-preview dd {
+  margin: 0.01in 0 0;
+  font-size: var(--meta-font-size, 8.5pt);
+}
+
+body.print-preview .recipe-body {
+  min-height: 0;
+  overflow: visible;
+
+  column-count: var(--recipe-columns, 1);
+  column-gap: 0.22in;
+  column-rule: 1px solid #ddd;
+}
+
+body.print-preview .recipe-body h2 {
+  break-after: avoid;
+  margin: var(--h2-margin, 0.08in 0 0.04in);
+  padding-bottom: 0.02in;
+  font-size: var(--h2-font-size, 12pt);
+  line-height: 1.1;
+}
+
+body.print-preview .recipe-body h3 {
+  break-after: avoid;
+  margin: var(--h3-margin, 0.06in 0 0.03in);
+  font-size: var(--h3-font-size, 10pt);
+  line-height: 1.1;
+}
+
+body.print-preview .recipe-body h4 {
+  break-after: avoid;
+  margin: var(--h4-margin, 0.045in 0 0.02in);
+  font-size: var(--h4-font-size, 9.2pt);
+  line-height: 1.1;
+}
+
+body.print-preview .recipe-body p {
+  margin: var(--p-margin, 0.03in 0);
+}
+
+body.print-preview .recipe-body ul,
+body.print-preview .recipe-body ol {
+  margin: var(--list-margin, 0.03in 0 0.07in 0.18in);
+  padding: 0;
+}
+
+body.print-preview .recipe-body li {
+  margin: var(--li-margin, 0.015in 0);
+  break-inside: avoid;
+}
+
+body.print-preview .entrant-footer {
+  margin-top: 0.08in;
+  padding-top: 0.06in;
+  border-top: 1.5px solid #111;
+  font-size: var(--footer-font-size, 8.5pt);
+  line-height: 1.15;
+  break-inside: avoid;
+}
+
+body.print-preview .entrant-footer p {
+  display: inline;
+  margin: 0;
+}
+
+body.print-preview .entrant-footer p:not(:last-child)::after {
+  content: " • ";
+}
+
+/* Real print */
 @media print {
   html,
   body {
-    width: auto;
-    height: auto;
     margin: 0;
     padding: 0;
     background: white;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .entry-sheet {
@@ -236,8 +277,8 @@ dd {
     max-width: none;
     margin: 0;
     padding: 0;
-    box-shadow: none;
     overflow: hidden;
+    box-shadow: none;
 
     display: grid;
     grid-template-rows: auto 1fr auto;
@@ -247,10 +288,9 @@ dd {
   }
 
   .fair-header {
-    grid-row: 1;
     border-bottom: 1.5px solid #111;
-    margin-bottom: 0.12in;
-    padding-bottom: 0.08in;
+    margin-bottom: var(--header-margin-bottom, 0.12in);
+    padding-bottom: var(--header-padding-bottom, 0.08in);
   }
 
   .fair-header h1 {
@@ -277,13 +317,12 @@ dd {
 
   dd {
     margin: 0.01in 0 0;
-    font-size: 8.5pt;
+    font-size: var(--meta-font-size, 8.5pt);
   }
 
   .recipe-body {
-    grid-row: 2;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
 
     column-count: var(--recipe-columns, 1);
     column-gap: 0.22in;
@@ -292,7 +331,7 @@ dd {
 
   .recipe-body h2 {
     break-after: avoid;
-    margin: 0.08in 0 0.04in;
+    margin: var(--h2-margin, 0.08in 0 0.04in);
     padding-bottom: 0.02in;
     font-size: var(--h2-font-size, 12pt);
     line-height: 1.1;
@@ -300,28 +339,34 @@ dd {
 
   .recipe-body h3 {
     break-after: avoid;
-    margin: 0.06in 0 0.03in;
+    margin: var(--h3-margin, 0.06in 0 0.03in);
     font-size: var(--h3-font-size, 10pt);
     line-height: 1.1;
   }
 
+  .recipe-body h4 {
+    break-after: avoid;
+    margin: var(--h4-margin, 0.045in 0 0.02in);
+    font-size: var(--h4-font-size, 9.2pt);
+    line-height: 1.1;
+  }
+
   .recipe-body p {
-    margin: 0.03in 0;
+    margin: var(--p-margin, 0.03in 0);
   }
 
   .recipe-body ul,
   .recipe-body ol {
-    margin: 0.03in 0 0.07in 0.18in;
+    margin: var(--list-margin, 0.03in 0 0.07in 0.18in);
     padding: 0;
   }
 
   .recipe-body li {
-    margin: 0.015in 0;
+    margin: var(--li-margin, 0.015in 0);
     break-inside: avoid;
   }
 
   .entrant-footer {
-    grid-row: 3;
     margin-top: 0.08in;
     padding-top: 0.06in;
     border-top: 1.5px solid #111;
@@ -345,17 +390,25 @@ dd {
   }
 }
 
-/* =========================================================
-   JS-controlled fit modes
-   ========================================================= */
-
+/* JS fit modes */
 .entry-sheet.compact {
-  --recipe-font-size: 8.8pt;
-  --recipe-line-height: 1.15;
-  --title-font-size: 15.5pt;
-  --h2-font-size: 11pt;
-  --h3-font-size: 9.5pt;
-  --footer-font-size: 8pt;
+  --recipe-font-size: 8.6pt;
+  --recipe-line-height: 1.12;
+  --title-font-size: 15pt;
+  --h2-font-size: 10.5pt;
+  --h3-font-size: 9.2pt;
+  --h4-font-size: 8.6pt;
+  --footer-font-size: 7.8pt;
+  --meta-font-size: 8pt;
+
+  --header-margin-bottom: 0.07in;
+  --header-padding-bottom: 0.05in;
+  --h2-margin: 0.05in 0 0.025in;
+  --h3-margin: 0.035in 0 0.018in;
+  --h4-margin: 0.025in 0 0.012in;
+  --p-margin: 0.02in 0;
+  --list-margin: 0.02in 0 0.04in 0.16in;
+  --li-margin: 0.008in 0;
 }
 
 .entry-sheet.two-column {
@@ -363,32 +416,21 @@ dd {
 }
 
 .entry-sheet.tiny {
-  --recipe-font-size: 8pt;
-  --recipe-line-height: 1.08;
-  --title-font-size: 14pt;
-  --h2-font-size: 10pt;
-  --h3-font-size: 9pt;
-  --footer-font-size: 7.5pt;
-}
+  --recipe-font-size: 7.6pt;
+  --recipe-line-height: 1.04;
+  --title-font-size: 13.5pt;
+  --h2-font-size: 9.4pt;
+  --h3-font-size: 8.4pt;
+  --h4-font-size: 8pt;
+  --footer-font-size: 7pt;
+  --meta-font-size: 7.5pt;
 
-.entry-sheet.compact .fair-header {
-  margin-bottom: 0.08in;
-  padding-bottom: 0.06in;
-}
-
-.entry-sheet.compact .recipe-body h2 {
-  margin: 0.055in 0 0.025in;
-}
-
-.entry-sheet.compact .recipe-body h3 {
-  margin: 0.04in 0 0.02in;
-}
-
-.entry-sheet.compact .recipe-body ul,
-.entry-sheet.compact .recipe-body ol {
-  margin-bottom: 0.04in;
-}
-
-.entry-sheet.tiny .recipe-body li {
-  margin: 0.008in 0;
+  --header-margin-bottom: 0.05in;
+  --header-padding-bottom: 0.04in;
+  --h2-margin: 0.035in 0 0.018in;
+  --h3-margin: 0.024in 0 0.012in;
+  --h4-margin: 0.018in 0 0.01in;
+  --p-margin: 0.012in 0;
+  --list-margin: 0.012in 0 0.03in 0.14in;
+  --li-margin: 0.004in 0;
 }
