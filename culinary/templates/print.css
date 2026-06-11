@@ -7,28 +7,66 @@
   box-sizing: border-box;
 }
 
+/* Default mobile: NEVER clip */
 html,
 body {
   margin: 0;
   padding: 0;
   color: #111;
   background: #f3f3f3;
+  overflow: visible;
 }
-
-/* =========================================================
-   Mobile-first screen layout
-   ========================================================= */
 
 .entry-sheet {
   width: 100%;
   max-width: 48rem;
+  min-height: 0;
+  height: auto;
   margin: 0 auto;
   padding: 1rem;
+  overflow: visible;
   background: white;
+}
 
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1rem;
-  line-height: 1.5;
+/* Print preview: paper-sized, but do NOT hide overflow while debugging */
+body.print-preview .entry-sheet {
+  width: 8.5in;
+  min-height: 11in;
+  height: auto;
+  max-width: none;
+  margin: 2rem auto;
+  padding: 0.35in;
+  overflow: visible;
+}
+
+/* Only true print gets fixed page behavior */
+@media print {
+  html,
+  body {
+    overflow: visible;
+    background: white;
+  }
+
+  .entry-sheet {
+    width: 100%;
+    height: calc(11in - 0.7in);
+    max-height: calc(11in - 0.7in);
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    font-size: var(--recipe-font-size, 9.5pt);
+    line-height: var(--recipe-line-height, 1.22);
+  }
+
+  .recipe-body {
+    min-height: 0;
+    overflow: hidden;
+    column-count: var(--recipe-columns, 1);
+  }
 }
 
 .fair-header {
