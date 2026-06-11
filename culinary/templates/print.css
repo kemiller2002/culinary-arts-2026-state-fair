@@ -11,65 +11,65 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: white;
   color: #111;
+  background: #f3f3f3;
 }
+
+/* =========================================================
+   Mobile-first screen layout
+   ========================================================= */
+
 .entry-sheet {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: var(--recipe-font-size, 9.5pt);
-  line-height: var(--recipe-line-height, 1.22);
   width: 100%;
-  max-width: none;
-  min-height: calc(11in - 0.7in);
-  display: flex;
-  flex-direction: column;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+  background: white;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .fair-header {
-  flex: 0 0 auto;
-  border-bottom: 1.5px solid #111;
-  margin-bottom: 0.12in;
-  padding-bottom: 0.08in;
+  border-bottom: 2px solid #111;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
 }
 
 .fair-header h1 {
-  margin: 0 0 0.06in;
-  font-size: var(--title-font-size, 17pt);
-  line-height: 1.05;
+  margin: 0 0 0.5rem;
+  font-size: 1.8rem;
+  line-height: 1.1;
 }
 
 .entry-meta,
 .recipe-meta {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.06in;
-  margin: 0.04in 0;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
 }
 
 .entry-meta div,
 .recipe-meta div {
-  border: 1px solid #999;
-  padding: 0.04in 0.05in;
-  min-height: 0;
+  border: 1px solid #aaa;
+  padding: 0.5rem;
 }
 
 dt {
-  font-size: 6.8pt;
+  font-size: 0.7rem;
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 dd {
-  margin: 0.01in 0 0;
-  font-size: 8.5pt;
+  margin: 0.15rem 0 0;
 }
 
 .recipe-body {
-  flex: 1 1 auto;
-  column-count: var(--recipe-columns, 1);
-  column-gap: 0.22in;
-  column-rule: 1px solid #ddd;
+  columns: 1;
 }
 
 .recipe-body h1 {
@@ -77,33 +77,31 @@ dd {
 }
 
 .recipe-body h2 {
-  break-after: avoid;
-  margin: 0.08in 0 0.04in;
-  padding-bottom: 0.02in;
+  margin: 1.25rem 0 0.5rem;
+  padding-bottom: 0.25rem;
   border-bottom: 1px solid #aaa;
-  font-size: var(--h2-font-size, 12pt);
-  line-height: 1.1;
+  font-size: 1.35rem;
+  line-height: 1.15;
 }
 
 .recipe-body h3 {
-  break-after: avoid;
-  margin: 0.06in 0 0.03in;
-  font-size: var(--h3-font-size, 10pt);
-  line-height: 1.1;
+  margin: 1rem 0 0.35rem;
+  font-size: 1.1rem;
+  line-height: 1.2;
 }
 
 .recipe-body p {
-  margin: 0.03in 0;
+  margin: 0.5rem 0;
 }
 
 .recipe-body ul,
 .recipe-body ol {
-  margin: 0.03in 0 0.07in 0.18in;
+  margin: 0.5rem 0 1rem 1.25rem;
   padding: 0;
 }
 
 .recipe-body li {
-  margin: 0.015in 0;
+  margin: 0.25rem 0;
   break-inside: avoid;
 }
 
@@ -112,25 +110,206 @@ dd {
 }
 
 .entrant-footer {
-  flex: 0 0 auto;
-  margin-top: auto;
-  padding-top: 0.06in;
-  border-top: 1.5px solid #111;
-  font-size: var(--footer-font-size, 8.5pt);
-  line-height: 1.15;
-  break-inside: avoid;
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 2px solid #111;
+  font-size: 0.9rem;
+  line-height: 1.35;
 }
 
 .entrant-footer p {
-  display: inline;
-  margin: 0;
+  margin: 0.25rem 0;
 }
 
-.entrant-footer p:not(:last-child)::after {
-  content: " • ";
+/* Tablet / desktop screen layout */
+
+@media screen and (min-width: 700px) {
+  body {
+    padding: 2rem;
+  }
+
+  .entry-sheet {
+    padding: 2rem;
+    box-shadow: 0 0 20px rgb(0 0 0 / 0.12);
+  }
+
+  .entry-meta,
+  .recipe-meta {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-/* Fit modes controlled by JS */
+/* Optional browser print preview mode.
+   Add body class="print-preview" if you want the screen to look like paper. */
+
+@media screen {
+  body.print-preview {
+    padding: 0;
+    background: #eee;
+  }
+
+  body.print-preview .entry-sheet {
+    width: 8.5in;
+    height: 11in;
+    max-width: none;
+    margin: 2rem auto;
+    padding: 0.35in;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgb(0 0 0 / 0.15);
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    font-size: var(--recipe-font-size, 9.5pt);
+    line-height: var(--recipe-line-height, 1.22);
+  }
+
+  body.print-preview .recipe-body {
+    min-height: 0;
+    overflow: hidden;
+    column-count: var(--recipe-columns, 1);
+    column-gap: 0.22in;
+    column-rule: 1px solid #ddd;
+  }
+
+  body.print-preview .entrant-footer {
+    margin-top: 0.08in;
+  }
+}
+
+/* =========================================================
+   Print layout
+   ========================================================= */
+
+@media print {
+  html,
+  body {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background: white;
+    overflow: hidden;
+  }
+
+  .entry-sheet {
+    width: 100%;
+    height: calc(11in - 0.7in);
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    overflow: hidden;
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+
+    font-size: var(--recipe-font-size, 9.5pt);
+    line-height: var(--recipe-line-height, 1.22);
+  }
+
+  .fair-header {
+    grid-row: 1;
+    border-bottom: 1.5px solid #111;
+    margin-bottom: 0.12in;
+    padding-bottom: 0.08in;
+  }
+
+  .fair-header h1 {
+    margin: 0 0 0.06in;
+    font-size: var(--title-font-size, 17pt);
+    line-height: 1.05;
+  }
+
+  .entry-meta,
+  .recipe-meta {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.06in;
+    margin: 0.04in 0;
+  }
+
+  .entry-meta div,
+  .recipe-meta div {
+    padding: 0.04in 0.05in;
+  }
+
+  dt {
+    font-size: 6.8pt;
+  }
+
+  dd {
+    margin: 0.01in 0 0;
+    font-size: 8.5pt;
+  }
+
+  .recipe-body {
+    grid-row: 2;
+    min-height: 0;
+    overflow: hidden;
+
+    column-count: var(--recipe-columns, 1);
+    column-gap: 0.22in;
+    column-rule: 1px solid #ddd;
+  }
+
+  .recipe-body h2 {
+    break-after: avoid;
+    margin: 0.08in 0 0.04in;
+    padding-bottom: 0.02in;
+    font-size: var(--h2-font-size, 12pt);
+    line-height: 1.1;
+  }
+
+  .recipe-body h3 {
+    break-after: avoid;
+    margin: 0.06in 0 0.03in;
+    font-size: var(--h3-font-size, 10pt);
+    line-height: 1.1;
+  }
+
+  .recipe-body p {
+    margin: 0.03in 0;
+  }
+
+  .recipe-body ul,
+  .recipe-body ol {
+    margin: 0.03in 0 0.07in 0.18in;
+    padding: 0;
+  }
+
+  .recipe-body li {
+    margin: 0.015in 0;
+    break-inside: avoid;
+  }
+
+  .entrant-footer {
+    grid-row: 3;
+    margin-top: 0.08in;
+    padding-top: 0.06in;
+    border-top: 1.5px solid #111;
+    font-size: var(--footer-font-size, 8.5pt);
+    line-height: 1.15;
+    break-inside: avoid;
+  }
+
+  .entrant-footer p {
+    display: inline;
+    margin: 0;
+  }
+
+  .entrant-footer p:not(:last-child)::after {
+    content: " • ";
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+/* =========================================================
+   JS-controlled fit modes
+   ========================================================= */
 
 .entry-sheet.compact {
   --recipe-font-size: 8.8pt;
@@ -174,53 +353,4 @@ dd {
 
 .entry-sheet.tiny .recipe-body li {
   margin: 0.008in 0;
-}
-
-@media screen {
-  body {
-    background: #eee;
-  }
-
-  .entry-sheet {
-    width: 8.5in;
-    height: 11in;
-    margin: 2rem auto;
-    padding: 0.35in;
-    background: white;
-    box-shadow: 0 0 20px rgb(0 0 0 / 0.15);
-    overflow: hidden;
-  }
-}
-
-@media print {
-  html,
-  body {
-    width: 8.5in;
-    height: 11in;
-    overflow: hidden;
-  }
-
-  .entry-sheet {
-    height: calc(11in - 0.7in);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    overflow: hidden;
-  }
-
-  .fair-header {
-    grid-row: 1;
-  }
-
-  .recipe-body {
-    grid-row: 2;
-    min-height: 0;
-    overflow: hidden;
-    columns: 2;
-    column-gap: 0.18in;
-  }
-
-  .entrant-footer {
-    grid-row: 3;
-    margin-top: 0.08in;
-  }
 }
