@@ -9,7 +9,7 @@ const ENTRIES = path.join(ROOT, "entries");
 const PEOPLE = path.join(ROOT, "people");
 const OUTPUT = "html";
 const CSS_SOURCE = path.join(ROOT, "templates", "print.css");
-
+const PRINT_JS_SOURCE = path.join(ROOT, "templates", "print-fit.js");
 fs.mkdirSync(OUTPUT, { recursive: true });
 
 function readYaml(filePath) {
@@ -156,6 +156,10 @@ function buildEntry(recipePath) {
 
 if (fs.existsSync(CSS_SOURCE)) {
   fs.copyFileSync(CSS_SOURCE, path.join(OUTPUT, "print.css"));
+}
+
+if (fs.existsSync(PRINT_JS_SOURCE)) {
+  fs.copyFileSync(PRINT_JS_SOURCE, path.join(OUTPUT, "print-fit.js"));
 }
 
 for (const recipeFile of findRecipeFiles()) {

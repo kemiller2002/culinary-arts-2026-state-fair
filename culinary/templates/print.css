@@ -15,9 +15,8 @@ body {
   color: #111;
 }
 .entry-sheet {
-  
-    font-family: Georgia, "Times New Roman", serif;
-font-size: var(--recipe-font-size, 9.5pt);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: var(--recipe-font-size, 9.5pt);
   line-height: var(--recipe-line-height, 1.22);
   width: 100%;
   max-width: none;
@@ -194,14 +193,34 @@ dd {
 }
 
 @media print {
-  .entry-sheet {
-    height: calc(11in - 0.7in);
-    padding: 0;
+  html,
+  body {
+    width: 8.5in;
+    height: 11in;
     overflow: hidden;
   }
 
-  a {
-    color: inherit;
-    text-decoration: none;
+  .entry-sheet {
+    height: calc(11in - 0.7in);
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow: hidden;
+  }
+
+  .fair-header {
+    grid-row: 1;
+  }
+
+  .recipe-body {
+    grid-row: 2;
+    min-height: 0;
+    overflow: hidden;
+    columns: 2;
+    column-gap: 0.18in;
+  }
+
+  .entrant-footer {
+    grid-row: 3;
+    margin-top: 0.08in;
   }
 }
