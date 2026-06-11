@@ -462,3 +462,16 @@ body.print-preview .entrant-footer p:not(:last-child)::after {
   padding: 0.35in;
   overflow: hidden;
 }
+
+@media print {
+  .screen-version {
+    display: none;
+  }
+
+  .print-version {
+    position: static;
+    left: auto;
+    top: auto;
+    display: grid;
+  }
+}
