@@ -8,10 +8,7 @@ const FIT_MODES = [
 ];
 
 function isPrintMode() {
-  return (
-    window.matchMedia("print").matches ||
-    document.body.classList.contains("print-preview")
-  );
+  return window.matchMedia("print").matches;
 }
 
 function applyFitMode(sheet, mode) {
