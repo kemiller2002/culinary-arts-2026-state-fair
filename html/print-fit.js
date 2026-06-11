@@ -7,13 +7,6 @@ const FIT_MODES = [
   ["compact", "two-column", "tiny"],
 ];
 
-function isPrintLikeMode() {
-  return (
-    window.matchMedia("print").matches ||
-    document.body.classList.contains("print-preview")
-  );
-}
-
 function resetFit(sheet) {
   sheet.classList.remove(...FIT_CLASSES);
 }
@@ -21,22 +14,14 @@ function resetFit(sheet) {
 function applyMode(sheet, mode) {
   resetFit(sheet);
   sheet.classList.add(...mode);
-
-  // Force layout recalculation.
   void sheet.offsetHeight;
 }
 
 function sheetFits(sheet) {
-  const overflow = sheet.scrollHeight - sheet.clientHeight;
-  return overflow <= 1;
+  return sheet.scrollHeight - sheet.clientHeight <= 1;
 }
 
 function fitSheet(sheet) {
-  if (!isPrintLikeMode()) {
-    resetFit(sheet);
-    return;
-  }
-
   for (const mode of FIT_MODES) {
     applyMode(sheet, mode);
 
@@ -48,15 +33,33 @@ function fitSheet(sheet) {
   applyMode(sheet, ["compact", "two-column", "tiny"]);
 }
 
-function fitAllSheets() {
-  document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+function fitAllSheetsForPrint() {
+  document.body.classList.add("print-preview");
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+  });
 }
 
-window.addEventListener("load", fitAllSheets);
-window.addEventListener("resize", fitAllSheets);
-window.addEventListener("beforeprint", fitAllSheets);
-window.addEventListener("afterprint", fitAllSheets);
+function resetAfterPrint() {
+  if (!document.body.dataset.keepPrintPreview) {
+    document.body.classList.remove("print-preview");
+  }
+}
+
+window.addEventListener("beforeprint", fitAllSheetsForPrint);
+window.addEventListener("afterprint", resetAfterPrint);
+
+window.addEventListener("load", () => {
+  if (document.body.classList.contains("print-preview")) {
+    document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+  }
+});
 
 if (document.fonts?.ready) {
-  document.fonts.ready.then(fitAllSheets);
+  document.fonts.ready.then(() => {
+    if (document.body.classList.contains("print-preview")) {
+      document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+    }
+  });
 }
