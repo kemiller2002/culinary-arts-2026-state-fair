@@ -89,7 +89,7 @@ function buildEntry(recipePath) {
   <title>${escapeHtml(title)}</title>
   <link rel="stylesheet" href="./print.css" />
 </head>
-<body>
+<body class="print-preview">
   <main class="entry-sheet">
     <header class="fair-header">
       <h1>${escapeHtml(title)}</h1>
