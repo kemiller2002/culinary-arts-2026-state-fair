@@ -1,42 +1,55 @@
-function fits(sheet) {
-  return sheet.scrollHeight <= sheet.clientHeight;
+const FIT_CLASSES = ["compact", "two-column", "tiny"];
+
+const FIT_MODES = [
+  [],
+  ["compact"],
+  ["compact", "two-column"],
+  ["compact", "two-column", "tiny"],
+];
+
+function isPrintMode() {
+  return (
+    window.matchMedia("print").matches ||
+    document.body.classList.contains("print-preview")
+  );
 }
 
-function applyMode(sheet, classes) {
-  sheet.classList.remove("compact", "two-column", "tiny");
-  sheet.classList.add(...classes);
+function applyFitMode(sheet, mode) {
+  sheet.classList.remove(...FIT_CLASSES);
+  sheet.classList.add(...mode);
 
-  // Force layout recalculation
+  // Force layout recalculation.
   void sheet.offsetHeight;
 }
 
+function sheetFits(sheet) {
+  return sheet.scrollHeight <= sheet.clientHeight;
+}
+
 function fitSheet(sheet) {
-  const modes = [
-    [],
-    ["compact"],
-    ["compact", "two-column"],
-    ["compact", "two-column", "tiny"],
-  ];
+  for (const mode of FIT_MODES) {
+    applyFitMode(sheet, mode);
 
-  for (const mode of modes) {
-    applyMode(sheet, mode);
-
-    if (fits(sheet)) {
-      return;
-    }
+    if (sheetFits(sheet)) return;
   }
 
-  applyMode(sheet, ["compact", "two-column", "tiny"]);
+  applyFitMode(sheet, ["compact", "two-column", "tiny"]);
 }
 
 function fitAllSheets() {
+  if (!isPrintMode()) return;
+
   document.querySelectorAll(".entry-sheet").forEach(fitSheet);
 }
 
-window.addEventListener("load", fitAllSheets);
-window.addEventListener("resize", fitAllSheets);
 window.addEventListener("beforeprint", fitAllSheets);
 
-if (document.fonts?.ready) {
-  document.fonts.ready.then(fitAllSheets);
-}
+window.addEventListener("load", () => {
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(fitAllSheets);
+  } else {
+    fitAllSheets();
+  }
+});
+
+window.addEventListener("resize", fitAllSheets);
