@@ -1,10 +1,11 @@
 {
   "type": "module",
   "scripts": {
+    "clean": "node scripts/clean-html.js",
     "build:entries": "node scripts/build-entries.js",
-    "build:index": "node scripts/build-index.js",
-    "build:site": "npm run build:entries && npm run build:index",
-    "build:metadata": "node scripts/build-metadata.js"
+    "build": "npm run clean && npm run build:entries",
+    "build:metadata": "node scripts/build-metadata.js",
+    "build:index": "node scripts/build-index.js"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

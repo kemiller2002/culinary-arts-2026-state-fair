@@ -392,3 +392,26 @@ dd {
     box-shadow: none;
   }
 }
+
+body.show-print-version {
+  background: #eee;
+}
+
+body.show-print-version .screen-version {
+  display: none;
+}
+
+body.show-print-version .print-version {
+  position: static;
+  left: auto;
+  top: auto;
+
+  display: grid;
+  width: 8.5in;
+  height: 11in;
+  margin: 2rem auto;
+  padding: 0.35in;
+  overflow: hidden;
+
+  box-shadow: 0 0 20px rgb(0 0 0 / 0.15);
+}
