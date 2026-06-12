@@ -80,7 +80,22 @@ function buildEntry(recipePath) {
   const cookTime = parsed.data.cookTime || "";
 
   const recipeHtml = marked.parse(parsed.content);
+<<<<<<< HEAD
   const mainBody = `<header class="fair-header">
+=======
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapeHtml(title)}</title>
+  <link rel="stylesheet" href="./print.css" />
+</head>
+<body>
+  <main class="entry-sheet">
+    <header class="fair-header">
+>>>>>>> refs/remotes/origin/main
       <h1>${escapeHtml(title)}</h1>
 
       <dl class="entry-meta">

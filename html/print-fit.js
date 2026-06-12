@@ -8,12 +8,22 @@ const FIT_MODES = [
   ["compact", "two-column", "tiny", "micro"],
 ];
 
+<<<<<<< HEAD
 function applyMode(sheet, mode) {
   sheet.classList.remove(...FIT_CLASSES);
+=======
+function resetFit(sheet) {
+  sheet.classList.remove(...FIT_CLASSES);
+}
+
+function applyMode(sheet, mode) {
+  resetFit(sheet);
+>>>>>>> refs/remotes/origin/main
   sheet.classList.add(...mode);
   void sheet.offsetHeight;
 }
 
+<<<<<<< HEAD
 function getContentOverflow(sheet) {
   const body = sheet.querySelector(".recipe-body");
 
@@ -41,6 +51,10 @@ function getContentOverflow(sheet) {
   }
 
   return overflow;
+=======
+function sheetFits(sheet) {
+  return sheet.scrollHeight - sheet.clientHeight <= 1;
+>>>>>>> refs/remotes/origin/main
 }
 
 function fitPrintVersion() {
@@ -54,6 +68,7 @@ function fitPrintVersion() {
   for (const mode of FIT_MODES) {
     applyMode(sheet, mode);
 
+<<<<<<< HEAD
     const overflow = getContentOverflow(sheet);
 
     console.log(
@@ -65,10 +80,14 @@ function fitPrintVersion() {
 
     if (overflow <= 1) {
       console.log("Selected:", mode.join(" ") || "normal");
+=======
+    if (sheetFits(sheet)) {
+>>>>>>> refs/remotes/origin/main
       return;
     }
   }
 
+<<<<<<< HEAD
   applyMode(sheet, ["compact", "two-column", "tiny", "micro"]);
   console.warn("Using tightest mode");
 }
@@ -79,3 +98,38 @@ window.addEventListener("resize", fitPrintVersion);
 if (document.fonts?.ready) {
   document.fonts.ready.then(fitPrintVersion);
 }
+=======
+  applyMode(sheet, ["compact", "two-column", "tiny"]);
+}
+
+function fitAllSheetsForPrint() {
+  document.body.classList.add("print-preview");
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+  });
+}
+
+function resetAfterPrint() {
+  if (!document.body.dataset.keepPrintPreview) {
+    document.body.classList.remove("print-preview");
+  }
+}
+
+window.addEventListener("beforeprint", fitAllSheetsForPrint);
+window.addEventListener("afterprint", resetAfterPrint);
+
+window.addEventListener("load", () => {
+  if (document.body.classList.contains("print-preview")) {
+    document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+  }
+});
+
+if (document.fonts?.ready) {
+  document.fonts.ready.then(() => {
+    if (document.body.classList.contains("print-preview")) {
+      document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+    }
+  });
+}
+>>>>>>> refs/remotes/origin/main

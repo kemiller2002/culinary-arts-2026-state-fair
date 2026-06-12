@@ -21,13 +21,9 @@ body {
 
 .print-version .recipe-body {
   min-height: 0;
-
   overflow: hidden;
-
   column-count: var(--recipe-columns, 1);
-
   column-gap: 0.22in;
-
   column-rule: 1px solid #ddd;
 }
 
