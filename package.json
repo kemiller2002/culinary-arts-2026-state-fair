@@ -3,7 +3,7 @@
   "scripts": {
     "clean": "node scripts/clean-html.js",
     "build:entries": "node scripts/build-entries.js",
-    "build": "npm run clean && npm run build:entries"
+    "build": "npm run clean && npm run build:entries",
     "build:metadata": "node scripts/build-metadata.js"
     "build:index": "node scripts/build-index.js",
 
