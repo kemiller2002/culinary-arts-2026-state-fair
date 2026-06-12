@@ -79,3 +79,13 @@ window.addEventListener("resize", fitPrintVersion);
 if (document.fonts?.ready) {
   document.fonts.ready.then(fitPrintVersion);
 }
+
+function enablePrintModeFromQueryString() {
+  const params = new URLSearchParams(window.location.search);
+
+  if (!params.has("printMode")) return;
+
+  document.body.classList.add("show-print-version");
+}
+
+enablePrintModeFromQueryString();
