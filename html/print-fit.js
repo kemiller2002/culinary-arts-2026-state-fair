@@ -1,52 +1,81 @@
-const FIT_CLASSES = ["compact", "two-column", "tiny"];
+const FIT_CLASSES = ["compact", "two-column", "tiny", "micro"];
 
 const FIT_MODES = [
   [],
   ["compact"],
   ["compact", "two-column"],
   ["compact", "two-column", "tiny"],
+  ["compact", "two-column", "tiny", "micro"],
 ];
 
-function isPrintMode() {
-  return window.matchMedia("print").matches;
-}
-
-function applyFitMode(sheet, mode) {
+function applyMode(sheet, mode) {
   sheet.classList.remove(...FIT_CLASSES);
   sheet.classList.add(...mode);
-
-  // Force layout recalculation.
   void sheet.offsetHeight;
 }
 
-function sheetFits(sheet) {
-  return sheet.scrollHeight <= sheet.clientHeight;
+function getContentOverflow(sheet) {
+  const body = sheet.querySelector(".recipe-body");
+
+  if (!body) {
+    console.warn("No .recipe-body found inside .print-version");
+    return 9999;
+  }
+
+  const bodyBox = body.getBoundingClientRect();
+
+  let overflow = 0;
+
+  const children = body.querySelectorAll("*");
+
+  for (const child of children) {
+    const rects = child.getClientRects();
+
+    for (const rect of rects) {
+      overflow = Math.max(
+        overflow,
+        rect.right - bodyBox.right,
+        rect.bottom - bodyBox.bottom,
+      );
+    }
+  }
+
+  return overflow;
 }
 
-function fitSheet(sheet) {
+function fitPrintVersion() {
+  const sheet = document.querySelector(".print-version");
+
+  if (!sheet) {
+    console.warn("No .print-version found");
+    return;
+  }
+
   for (const mode of FIT_MODES) {
-    applyFitMode(sheet, mode);
+    applyMode(sheet, mode);
 
-    if (sheetFits(sheet)) return;
+    const overflow = getContentOverflow(sheet);
+
+    console.log(
+      "Trying:",
+      mode.join(" ") || "normal",
+      "overflow:",
+      Math.round(overflow),
+    );
+
+    if (overflow <= 1) {
+      console.log("Selected:", mode.join(" ") || "normal");
+      return;
+    }
   }
 
-  applyFitMode(sheet, ["compact", "two-column", "tiny"]);
+  applyMode(sheet, ["compact", "two-column", "tiny", "micro"]);
+  console.warn("Using tightest mode");
 }
 
-function fitAllSheets() {
-  if (!isPrintMode()) return;
+window.addEventListener("load", fitPrintVersion);
+window.addEventListener("resize", fitPrintVersion);
 
-  document.querySelectorAll(".entry-sheet").forEach(fitSheet);
+if (document.fonts?.ready) {
+  document.fonts.ready.then(fitPrintVersion);
 }
-
-window.addEventListener("beforeprint", fitAllSheets);
-
-window.addEventListener("load", () => {
-  if (document.fonts?.ready) {
-    document.fonts.ready.then(fitAllSheets);
-  } else {
-    fitAllSheets();
-  }
-});
-
-window.addEventListener("resize", fitAllSheets);

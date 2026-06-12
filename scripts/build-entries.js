@@ -80,18 +80,7 @@ function buildEntry(recipePath) {
   const cookTime = parsed.data.cookTime || "";
 
   const recipeHtml = marked.parse(parsed.content);
-
-  const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${escapeHtml(title)}</title>
-  <link rel="stylesheet" href="./print.css" />
-</head>
-<body class="print-preview">
-  <main class="entry-sheet">
-    <header class="fair-header">
+  const mainBody = `<header class="fair-header">
       <h1>${escapeHtml(title)}</h1>
 
       <dl class="entry-meta">
@@ -139,9 +128,23 @@ function buildEntry(recipePath) {
       <p>${escapeHtml(household.city)}, ${escapeHtml(household.state)} ${escapeHtml(household.zip)}</p>
       <p>${escapeHtml(person.phone)}</p>
       <p>${escapeHtml(household.email)}</p>
-    </footer>
+    </footer>`;
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapeHtml(title)}</title>
+  <link rel="stylesheet" href="./print.css" />
+</head>
+<body>
+  <main class="entry-sheet screen-version">
+    ${mainBody}
   </main>
-  <script src="print-fit.js"></script>
+  <main class="entry-sheet print-version">
+    ${mainBody}
+  </main>
+   <script src="print-fit.js"></script>
 </body>
 </html>`;
 
