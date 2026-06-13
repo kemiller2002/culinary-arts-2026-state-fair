@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import matter from "gray-matter";
 import yaml from "js-yaml";
 
 const ROOT = "culinary";
@@ -30,6 +31,15 @@ function getDirectories(dir) {
     .map((entry) => entry.name);
 }
 
+function walk(dir) {
+  if (!fs.existsSync(dir)) return [];
+
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const fullPath = path.join(dir, entry.name);
+    return entry.isDirectory() ? walk(fullPath) : [fullPath];
+  });
+}
+
 function getPeople() {
   if (!fs.existsSync(PEOPLE)) return [];
 
@@ -49,7 +59,37 @@ function getPeople() {
     .sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function getCategories() {
+function findRecipesInClass(classDir, classInfo, peopleById) {
+  return walk(classDir)
+    .filter((file) => path.basename(file) === "recipe.md")
+    .map((recipePath) => {
+      const relativePath = path.relative(ENTRIES, recipePath);
+      const parts = relativePath.split(path.sep);
+      const personId = parts[3] || "";
+      const recipeFolder = parts[4] || "";
+      const rawRecipe = fs.readFileSync(recipePath, "utf8");
+      const parsed = matter(rawRecipe);
+      const person = peopleById[personId];
+
+      return {
+        personId,
+        personName: person?.name || personId,
+        recipeSlug: recipeFolder,
+        recipeName: parsed.data.title || slugToTitle(recipeFolder),
+        recipePath: relativePath,
+        classNumber: classInfo.classNumber,
+        className: classInfo.className,
+      };
+    })
+    .sort((a, b) => {
+      return (
+        a.personName.localeCompare(b.personName) ||
+        a.recipeName.localeCompare(b.recipeName)
+      );
+    });
+}
+
+function getCategories(peopleById) {
   const categories = {};
 
   for (const division of getDirectories(ENTRIES)) {
@@ -71,21 +111,34 @@ function getCategories() {
       }
 
       for (const classFolder of getDirectories(categoryPath)) {
-        const classPath = path.join(categoryPath, classFolder, "_class.yml");
+        const classDir = path.join(categoryPath, classFolder);
+        const classPath = path.join(classDir, "_class.yml");
 
-        let className = slugToTitle(classFolder);
-        let classNumber = "";
+        let classInfo = {
+          className: slugToTitle(classFolder),
+          classNumber: "",
+        };
 
         if (fs.existsSync(classPath)) {
-          const classInfo = readYaml(classPath);
-          className = classInfo.className || className;
-          classNumber = classInfo.classNumber || "";
+          const loadedClassInfo = readYaml(classPath);
+          classInfo = {
+            ...classInfo,
+            ...loadedClassInfo,
+          };
         }
 
         categories[division][categoryName].classes.push({
           slug: classFolder,
-          classNumber,
-          name: className,
+          classNumber: classInfo.classNumber || "",
+          name: classInfo.className || slugToTitle(classFolder),
+          recipes: findRecipesInClass(
+            classDir,
+            {
+              classNumber: classInfo.classNumber || "",
+              className: classInfo.className || slugToTitle(classFolder),
+            },
+            peopleById,
+          ),
         });
       }
 
@@ -102,9 +155,11 @@ function getCategories() {
   return categories;
 }
 
+const people = getPeople();
+const peopleById = Object.fromEntries(people.map((person) => [person.id, person]));
 const output = {
-  people: getPeople(),
-  categories: getCategories(),
+  people,
+  categories: getCategories(peopleById),
 };
 
 fs.writeFileSync(
