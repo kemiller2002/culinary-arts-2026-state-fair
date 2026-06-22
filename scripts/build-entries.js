@@ -140,18 +140,10 @@ function buildEntry(recipePath) {
   <link rel="stylesheet" href="./print.css" />
 </head>
 <body>
-  <!--
-  <main class="entry-sheet screen-version">
+  <main class="entry-sheet">
     ${mainBody}
   </main>
-  <main class="entry-sheet print-version">
-    ${mainBody}
-  </main>
-  -->
-  <main class="entry-sheet print-version">
-    ${mainBody}
-  </main>
-   <script src="print-fit.js"></script>
+  <script src="print-fit.js"></script>
 </body>
 </html>`;
 

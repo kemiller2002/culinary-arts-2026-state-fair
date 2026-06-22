@@ -8,6 +8,8 @@ const FIT_MODES = [
   ["compact", "two-column", "tiny", "micro"],
 ];
 
+const SAFETY_BUFFER_PX = 0;
+
 function applyMode(sheet, mode) {
   sheet.classList.remove(...FIT_CLASSES);
   sheet.classList.add(...mode);
@@ -18,74 +20,46 @@ function getContentOverflow(sheet) {
   const body = sheet.querySelector(".recipe-body");
 
   if (!body) {
-    console.warn("No .recipe-body found inside .print-version");
     return 9999;
   }
 
   const bodyBox = body.getBoundingClientRect();
+  let maxOverflow = -Infinity;
 
-  let overflow = 0;
-
-  const children = body.querySelectorAll("*");
-
-  for (const child of children) {
-    const rects = child.getClientRects();
-
-    for (const rect of rects) {
-      overflow = Math.max(
-        overflow,
+  for (const child of body.querySelectorAll("*")) {
+    for (const rect of child.getClientRects()) {
+      maxOverflow = Math.max(
+        maxOverflow,
         rect.right - bodyBox.right,
         rect.bottom - bodyBox.bottom,
       );
     }
   }
 
-  return overflow;
+  return maxOverflow;
 }
 
-function fitPrintVersion() {
-  const sheet = document.querySelector(".print-version");
-
-  if (!sheet) {
-    console.warn("No .print-version found");
-    return;
-  }
-
+function fitSheet(sheet) {
   for (const mode of FIT_MODES) {
     applyMode(sheet, mode);
 
-    const overflow = getContentOverflow(sheet);
-
-    console.log(
-      "Trying:",
-      mode.join(" ") || "normal",
-      "overflow:",
-      Math.round(overflow),
-    );
-
-    if (overflow <= 1) {
-      console.log("Selected:", mode.join(" ") || "normal");
+    if (getContentOverflow(sheet) <= -SAFETY_BUFFER_PX) {
       return;
     }
   }
 
   applyMode(sheet, ["compact", "two-column", "tiny", "micro"]);
-  console.warn("Using tightest mode");
 }
 
-window.addEventListener("load", fitPrintVersion);
-window.addEventListener("resize", fitPrintVersion);
+function fitAllSheets() {
+  for (const sheet of document.querySelectorAll(".entry-sheet")) {
+    fitSheet(sheet);
+  }
+}
+
+window.addEventListener("load", fitAllSheets);
+window.addEventListener("resize", fitAllSheets);
 
 if (document.fonts?.ready) {
-  document.fonts.ready.then(fitPrintVersion);
+  document.fonts.ready.then(fitAllSheets);
 }
-
-function enablePrintModeFromQueryString() {
-  const params = new URLSearchParams(window.location.search);
-
-  if (!params.has("printMode")) return;
-
-  document.body.classList.add("show-print-version");
-}
-
-enablePrintModeFromQueryString();
