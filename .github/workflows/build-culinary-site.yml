@@ -2,8 +2,6 @@ name: Build Culinary Site
 
 on:
   push:
-    branches:
-      - main
     paths:
       - "culinary/**"
       - "scripts/**"
@@ -29,10 +27,6 @@ jobs:
   build-culinary-site:
     runs-on: ubuntu-latest
 
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -54,14 +48,45 @@ jobs:
       - name: Build Metadata
         run: npm run build:metadata
 
-      - name: Build culinary HTML site
+      - name: Build culinary index
         run: npm run build:site
 
-      - name: Commit generated HTML
+      - name: Commit generated site artifacts
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: Build culinary HTML site
+          commit_message: Build culinary site artifacts
           file_pattern: html/**
+
+  deploy-pages:
+    needs: build-culinary-site
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build culinary HTML site
+        run: npm run build:entries
+
+      - name: Build Metadata
+        run: npm run build:metadata
+
+      - name: Build culinary index
+        run: npm run build:site
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
