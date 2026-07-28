@@ -483,7 +483,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "wing",
                 "recipeName": "Buffalo Ranch Vegetable Dip",
-                "recipePath": "adult/dips-or-spreads/032-dip-for-vegetables/kevin/wing/recipe.md",
+                "recipePath": "culinary/entries/adult/dips-or-spreads/032-dip-for-vegetables/kevin/wing/recipe.md",
                 "classNumber": 32,
                 "className": "Dip for Vegetables"
               }
@@ -499,7 +499,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "italian-beef-cold",
                 "recipeName": "Sweet Home Chicago Dip",
-                "recipePath": "adult/dips-or-spreads/033-dip-for-chip-excluding-salsa/kevin/italian-beef-cold/recipe.md",
+                "recipePath": "culinary/entries/adult/dips-or-spreads/033-dip-for-chip-excluding-salsa/kevin/italian-beef-cold/recipe.md",
                 "classNumber": 33,
                 "className": "Dip for Chip Excluding Salsa"
               }
@@ -515,7 +515,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "nola-hummus",
                 "recipeName": "Monday Red Hummus",
-                "recipePath": "adult/dips-or-spreads/034-hummus-dip/kevin/nola-hummus/recipe.md",
+                "recipePath": "culinary/entries/adult/dips-or-spreads/034-hummus-dip/kevin/nola-hummus/recipe.md",
                 "classNumber": 34,
                 "className": "Hummus Dip"
               }
@@ -531,7 +531,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "harvest-wind",
                 "recipeName": "Harvest Wind Cheese Dip",
-                "recipePath": "adult/dips-or-spreads/035-cheese-dip/kevin/harvest-wind/recipe.md",
+                "recipePath": "culinary/entries/adult/dips-or-spreads/035-cheese-dip/kevin/harvest-wind/recipe.md",
                 "classNumber": 35,
                 "className": "Cheese Dip"
               }
@@ -998,7 +998,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "market-recipe",
                 "recipeName": "Spanish Market Tomato Sauce",
-                "recipePath": "adult/sauces/028-tomato-based-sauce/kevin/market-recipe/recipe.md",
+                "recipePath": "culinary/entries/adult/sauces/028-tomato-based-sauce/kevin/market-recipe/recipe.md",
                 "classNumber": 28,
                 "className": "Tomato Based Sauce"
               }
@@ -1014,7 +1014,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "sun-god",
                 "recipeName": "Sun God BBQ Sauce",
-                "recipePath": "adult/sauces/029-barbecue-sauce/kevin/sun-god/recipe.md",
+                "recipePath": "culinary/entries/adult/sauces/029-barbecue-sauce/kevin/sun-god/recipe.md",
                 "classNumber": 29,
                 "className": "Barbecue Sauce"
               }
@@ -1193,7 +1193,7 @@
                 "personName": "Kevin Miller",
                 "recipeSlug": "maple-five-ways",
                 "recipeName": "Maple Five Ways",
-                "recipePath": "sponsored/burtons-maplewood-farm-cooking-with-maple-syrup/003-cooking-with-maple-syrup/kevin/maple-five-ways/recipe.md",
+                "recipePath": "culinary/entries/sponsored/burtons-maplewood-farm-cooking-with-maple-syrup/003-cooking-with-maple-syrup/kevin/maple-five-ways/recipe.md",
                 "classNumber": 3,
                 "className": "Cooking with Maple Syrup"
               }

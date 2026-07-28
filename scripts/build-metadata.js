@@ -63,8 +63,9 @@ function findRecipesInClass(classDir, classInfo, peopleById) {
   return walk(classDir)
     .filter((file) => path.basename(file) === "recipe.md")
     .map((recipePath) => {
-      const relativePath = path.relative(ENTRIES, recipePath);
-      const parts = relativePath.split(path.sep);
+      const classRelativePath = path.relative(ENTRIES, recipePath);
+      const recipeRelativePath = path.join(ENTRIES, classRelativePath);
+      const parts = classRelativePath.split(path.sep);
       const personId = parts[3] || "";
       const recipeFolder = parts[4] || "";
       const rawRecipe = fs.readFileSync(recipePath, "utf8");
@@ -76,7 +77,7 @@ function findRecipesInClass(classDir, classInfo, peopleById) {
         personName: person?.name || personId,
         recipeSlug: recipeFolder,
         recipeName: parsed.data.title || slugToTitle(recipeFolder),
-        recipePath: relativePath,
+        recipePath: recipeRelativePath,
         classNumber: classInfo.classNumber,
         className: classInfo.className,
       };
