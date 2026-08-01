@@ -1243,7 +1243,17 @@
             "slug": "002-brownies-frosted-or-unfrosted",
             "classNumber": 2,
             "name": "Brownies Frosted or Unfrosted",
-            "recipes": []
+            "recipes": [
+              {
+                "personId": "kevin",
+                "personName": "Kevin Miller",
+                "recipeSlug": "test-entry",
+                "recipeName": "Test Entry",
+                "recipePath": "culinary/entries/youth/brownies/002-brownies-frosted-or-unfrosted/kevin/test-entry/recipe.md",
+                "classNumber": 2,
+                "className": "Brownies Frosted or Unfrosted"
+              }
+            ]
           }
         ]
       },
