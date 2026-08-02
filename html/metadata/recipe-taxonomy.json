@@ -534,6 +534,15 @@
                 "recipePath": "culinary/entries/adult/dips-or-spreads/035-cheese-dip/kevin/harvest-wind/recipe.md",
                 "classNumber": 35,
                 "className": "Cheese Dip"
+              },
+              {
+                "personId": "samantha",
+                "personName": "Samantha Miller",
+                "recipeSlug": "whipped-goat-cheese-dip-with-blistered-cherry-tomatoes",
+                "recipeName": "Whipped Goat Cheese Dip with Blistered Cherry Tomatoes",
+                "recipePath": "culinary/entries/adult/dips-or-spreads/035-cheese-dip/samantha/whipped-goat-cheese-dip-with-blistered-cherry-tomatoes/recipe.md",
+                "classNumber": 35,
+                "className": "Cheese Dip"
               }
             ]
           },

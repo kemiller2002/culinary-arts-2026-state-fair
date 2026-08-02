@@ -19,17 +19,17 @@ id: whipped-goat-cheese-cherry
 
 ### Ingredients
 
-- * 1 tbsp olive oil
-- * 8 oz cherry tomatoes
-- * 6 oz soft goat cheese
-- * 4 oz whole-milk, low-moisture mozzarella, freshly shredded
-- * 3 oz cream cheese, softened
-- * ¼ cup packed fresh basil leaves
-- * 1 small garlic clove, minced
-- * ¼ tsp kosher salt
-- * ⅛ tsp freshly ground black pepper
-- * 1 tsp finely grated lemon zest
-- * 1 tsp fresh lemon juice
+- 1 tbsp olive oil
+- 8 oz cherry tomatoes
+- 6 oz soft goat cheese
+- 4 oz whole-milk, low-moisture mozzarella, freshly shredded
+- 3 oz cream cheese, softened
+- ¼ cup packed fresh basil leaves
+- 1 small garlic clove, minced
+- ¼ tsp kosher salt
+- ⅛ tsp freshly ground black pepper
+- 1 tsp finely grated lemon zest
+- 1 tsp fresh lemon juice
 
 ### Steps
 

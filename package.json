@@ -1,9 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "clean": "node scripts/clean-html.js",
+    "clean": "node scripts/clean.js",
     "build:entries": "node scripts/build-entries.js",
-    "build": "npm run clean && npm run build:entries",
+    "build": "npm run clean && npm run build:entries && npm run build:metadata && npm run build:site",
     "build:metadata": "node scripts/build-metadata.js",
     "build:site": "node scripts/build-index.js"
   },
